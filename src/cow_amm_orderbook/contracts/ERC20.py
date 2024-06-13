@@ -1,0 +1,1 @@
+cow_amm_abi = {"test": False}
