@@ -6,7 +6,7 @@ import time
 from cowamms import OnchainFetcher, get_cow_amms, update_cow_amms
 from liquidity import OffchainFetcher, get_liquidity, update_liquidity
 from models import CoWAMM, Liquidity, CoWAMMOrderbook
-from orders import update_orderbook, post_orders
+from orderbook import update_orderbook, post_orders
 
 logger = logging.getLogger(__name__)
 
