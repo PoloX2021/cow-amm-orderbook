@@ -10,7 +10,7 @@ from web3 import Web3
 from web3.logs import DISCARD
 from web3.types import EventData
 
-from contract.cowamm import cow_amm_abi, COW_AMM_FACTORY_ADDRESS
+from contracts.cowamm import cow_amm_abi, COW_AMM_FACTORY_ADDRESS
 from models import CoWAMM
 
 load_dotenv()
