@@ -46,12 +46,36 @@ class OnchainFetcher:
 
     def get_cow_amms(self) -> list[CoWAMM]:
         """Initialize CoW AMMs from onchain logs"""
+        
+        #1 update the latest block checked
+        self.last_checked_block = {
+            chain_id: node.eth.blockNumber
+            for chain_id, node in self.nodes.items()
+        }
+
+        #2 get all the cow amms from the factory contract which show as internal transactions
+
         return []
 
     def update_cow_amms(self, cow_amms: list[CoWAMM]) -> list[CoWAMM]:
         """Update CoW AMMs from onchain logs
         Already indexed CoW AMMs are updated and new CoW AMMs are added to the list."""
-        return []
+
+        #1 get new cow_amms : call get_cow_amms
+        cow_amms = cow_amms + self.get_cow_amms()
+
+        #2 get the balances for each cow_amms
+        for cow_amm in cow_amms:
+            token0_contract = self.nodes[cow_amm.chain_id].eth.contract(
+                address=Address(HexBytes(cow_amm.token0)), abi=cow_amm_abi
+            )
+            cow_amm.reserve0 = token0_contract.functions.balanceOf(cow_amm.address).call()
+            token1_contract = self.nodes[cow_amm.chain_id].eth.contract(
+                address=Address(HexBytes(cow_amm.token1)), abi=cow_amm_abi
+            )
+            cow_amm.reserve1 = token1_contract.functions.balanceOf(cow_amm.address).call()
+        
+        return cow_amms
 
 
 def get_cow_amms(onchain_fetcher: OnchainFetcher) -> list[CoWAMM]:
