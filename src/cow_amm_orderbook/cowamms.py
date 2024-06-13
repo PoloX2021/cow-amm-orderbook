@@ -54,7 +54,7 @@ class OnchainFetcher:
         }
 
         #2 get all the cow amms from the factory contract which show as internal transactions
-
+            #it seems easier to call etherscan api to get all the cow_amms.
         return []
 
     def update_cow_amms(self, cow_amms: list[CoWAMM]) -> list[CoWAMM]:
